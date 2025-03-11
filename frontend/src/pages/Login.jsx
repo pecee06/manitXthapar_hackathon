@@ -7,6 +7,7 @@ const Login = () => {
 			<Button
 				text="Continue With Google"
 				func={loginWithGoogle}
+				styles="text-lg px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white w-fit"
 			/>
 		</main>
 	);
