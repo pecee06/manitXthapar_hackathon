@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+.big-shoulders-stencil {
+	font-family: "Big Shoulders Stencil", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+}

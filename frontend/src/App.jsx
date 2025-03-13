@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import Button from "./components/Button";
 import Logo from "./components/Logo";
 import Background from "./components/Background";
+import About from "./components/About";
 import { sdk_logout, getCurrentUser } from "./appwrite_sdk/account";
 import { useNavigate } from "react-router";
 import { Dashboard } from "./pages";
@@ -23,7 +24,7 @@ const App = () => {
 	return (
 		<main>
 			<header className="flex justify-around p-2 border-b items-center">
-				<Background />
+				{!loggedIn && <Background />}
 				<Logo />
 				{loggedIn ? (
 					<div>
@@ -50,7 +51,7 @@ const App = () => {
 					/>
 				)}
 			</header>
-			{loggedIn && <Dashboard />}
+			{loggedIn ? <Dashboard /> : <About />}
 		</main>
 	);
 };
