@@ -1,5 +1,6 @@
 import NotFound from "./NotFound";
 import Login from "./Login";
-import Prediction from "./Prediction";
+import Dashboard from "./Dashboard";
+import Repo from "./Repo";
 
-export { NotFound, Login, Prediction };
+export { NotFound, Login, Dashboard, Repo };

@@ -1,6 +1,7 @@
 import Button from "./Button";
-import uploadFile from "../api/uploadFile";
+import server_uploadFile from "../api/uploadFile";
 import { useRef } from "react";
+import { uploadFile } from "../appwrite_sdk/storage";
 
 const FileUpload = () => {
 	const fileRef = useRef(null);
@@ -16,8 +17,14 @@ const FileUpload = () => {
 				styles="border rounded-lg px-3 py-2"
 				func={(e) => {
 					e.preventDefault();
-					uploadFile(fileRef.current.files[0])
-						.then((res) => res && console.log("File uploaded"))
+					server_uploadFile(fileRef.current.files[0])
+						.then(
+							(res) =>
+								res &&
+								uploadFile(fileRef.current.files[0])
+									.then((res) => console.log(res))
+									.catch((error) => console.error(error))
+						)
 						.catch((error) => console.error(error));
 				}}
 			/>

@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
 
 export const UserContext = createContext({
+	dets: {},
+	setDets: () => {},
 	loggedIn: false,
 	login: () => {},
 	logout: () => {}
@@ -8,10 +10,13 @@ export const UserContext = createContext({
 
 const UserProvider = ({ children }) => {
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [dets, setDets] = useState({});
 
 	return (
 		<UserContext.Provider
 			value={{
+				dets,
+				setDets,
 				loggedIn,
 				login: () => {
 					setLoggedIn(true);

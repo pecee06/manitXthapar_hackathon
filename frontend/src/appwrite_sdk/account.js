@@ -1,9 +1,6 @@
-import { Client, Account, OAuthProvider } from "appwrite";
-import { localhost, appwrite_api_endpoint } from "../constants";
-
-const client = new Client()
-	.setEndpoint(appwrite_api_endpoint)
-	.setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID); // Your project ID
+import { Account, OAuthProvider } from "appwrite";
+import { localhost } from "../constants";
+import client from "./client";
 
 const account = new Account(client);
 
