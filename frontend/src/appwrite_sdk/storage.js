@@ -16,3 +16,17 @@ export const uploadFile = async (file) => {
 		console.error(error);
 	}
 };
+
+export const getFileURL = async (fileId) => {
+	try {
+		const result = storage.getFilePreview(
+			import.meta.env.VITE_APPWRITE_STORE_ID, // bucketId
+			fileId // fileId
+		);
+		// result is a public URL
+		if (!result) throw new Error("Unable to fetch the desired file");
+		return result;
+	} catch (error) {
+		console.error(error);
+	}
+};

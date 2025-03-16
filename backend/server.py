@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
 from datetime import datetime
-from utils import arithmeticMeanFilter, clahe, splitAndMerge, saveImage
+from utils import arithmeticMeanFilter, clahe, splitAndMerge, saveImage, detectContour
 
 app = FastAPI()
 
@@ -34,6 +34,7 @@ async def uploadFile(name: str = Form(...), file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, buffer)
         
         image = splitAndMerge(clahe(arithmeticMeanFilter(file_path)))
+        # image = detectContour(clahe(arithmeticMeanFilter(file_path)))
         saveImage(image, file_path)
 
         model_prediction = 2  # hard coded right now

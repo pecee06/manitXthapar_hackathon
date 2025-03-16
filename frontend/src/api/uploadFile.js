@@ -3,6 +3,7 @@ import axios from "axios";
 
 const uploadFile = async ({ name, file }) => {
 	try {
+		if (!name || !file) return;
 		const response = await axios.post(
 			`${server}/upload`,
 			{ name, file },

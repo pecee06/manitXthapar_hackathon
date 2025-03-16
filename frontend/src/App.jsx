@@ -21,11 +21,16 @@ const App = () => {
 			})
 			.catch((error) => console.error(error));
 	}, []);
-	console.log(dets);
+	// console.log(dets);
 
 	return (
 		<main>
-			<header className="flex justify-around p-2 border-b items-center">
+			<header
+				className="flex justify-around p-2 border-b items-center"
+				style={{
+					backgroundColor: "rgba(255,255,255,0.2)"
+				}}
+			>
 				{!loggedIn && <Background />}
 				<Logo />
 				{loggedIn ? (
