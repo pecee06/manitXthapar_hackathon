@@ -1,8 +1,9 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
-import random
+from datetime import datetime
+from utils import arithmeticMeanFilter, clahe, splitAndMerge, saveImage
 
 app = FastAPI()
 
@@ -25,12 +26,19 @@ UPLOAD_DIR = "uploads"  # Directory to save files
 os.makedirs(UPLOAD_DIR, exist_ok=True)  # Create if not exists
 
 @app.post("/upload")
-async def uploadFile(file: UploadFile = File(...)):
+async def uploadFile(name: str = Form(...), file: UploadFile = File(...)):
     try:
-        file_path = os.path.join(UPLOAD_DIR, f"{random.randint(1, 100)}_{file.filename}")
+        file_path = os.path.join(UPLOAD_DIR, f"{datetime.now().date()}_{name.replace(" ", "_")}_xray_{os.path.splitext(file.filename)[1]}")
+        # print(file_path)
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-        return {"filename": file.filename, "content_type": file.content_type}
+        
+        image = splitAndMerge(clahe(arithmeticMeanFilter(file_path)))
+        saveImage(image, file_path)
+
+        model_prediction = 2  # hard coded right now
+        return model_prediction
+    
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
 

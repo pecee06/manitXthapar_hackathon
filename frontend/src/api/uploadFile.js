@@ -1,13 +1,11 @@
 import { server } from "../constants";
 import axios from "axios";
 
-const uploadFile = async (file) => {
+const uploadFile = async ({ name, file }) => {
 	try {
-		console.log(file);
-
 		const response = await axios.post(
 			`${server}/upload`,
-			{ file },
+			{ name, file },
 			{
 				headers: {
 					"Content-Type": "multipart/form-data"

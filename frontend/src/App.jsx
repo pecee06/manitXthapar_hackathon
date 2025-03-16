@@ -10,7 +10,7 @@ import { Dashboard } from "./pages";
 
 const App = () => {
 	const navigate = useNavigate();
-	const { loggedIn, login, logout, dets, setDets } = useContext(UserContext);
+	const { loggedIn, login, logout, setDets, dets } = useContext(UserContext);
 	useEffect(() => {
 		getCurrentUser()
 			.then((res) => {
@@ -21,6 +21,8 @@ const App = () => {
 			})
 			.catch((error) => console.error(error));
 	}, []);
+	console.log(dets);
+
 	return (
 		<main>
 			<header className="flex justify-around p-2 border-b items-center">
