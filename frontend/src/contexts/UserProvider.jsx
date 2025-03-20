@@ -5,12 +5,17 @@ export const UserContext = createContext({
 	setDets: () => {},
 	loggedIn: false,
 	login: () => {},
-	logout: () => {}
+	logout: () => {},
+	diagnosisHistory: [
+		// {remark, date}
+	],
+	setDiagnosisHistory: () => {}
 });
 
 const UserProvider = ({ children }) => {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [dets, setDets] = useState({});
+	const [diagnosisHistory, setDiagnosisHistory] = useState([]);
 
 	return (
 		<UserContext.Provider
@@ -23,7 +28,9 @@ const UserProvider = ({ children }) => {
 				},
 				logout: () => {
 					setLoggedIn(false);
-				}
+				},
+				diagnosisHistory,
+				setDiagnosisHistory
 			}}
 		>
 			{children}

@@ -1,12 +1,16 @@
 import { server } from "../constants";
 import axios from "axios";
 
-const diagnose = async ({ name, file }) => {
+const diagnose = async (history = []) => {
 	try {
-		if (!name || !file) return;
+		if (history.length == 0) return;
+		let p = "";
+		history.forEach(
+			(instance) => (p += `-> ${instance.remark} ${instance.date} `)
+		);
 		const response = await axios.post(
-			`${server}/prediction`,
-			{ name, file },
+			`${server}/ai/feedback`,
+			{ prompt: p },
 			{
 				headers: {
 					"Content-Type": "multipart/form-data"

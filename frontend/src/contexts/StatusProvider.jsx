@@ -2,22 +2,17 @@ import { createContext, useState } from "react";
 
 export const StatusContext = createContext({
 	severityScore: 0,
-	setSeverityScore: () => {},
-	comment: "",
-	setComment: () => {}
+	setSeverityScore: () => {}
 });
 
 const StatusProvider = ({ children }) => {
-	const [severityScore, setSeverityScore] = useState(0);
-	const [comment, setComment] = useState("");
+	const [severityScore, setSeverityScore] = useState(-1);
 
 	return (
 		<StatusContext.Provider
 			value={{
 				severityScore,
-				setSeverityScore,
-				comment,
-				setComment
+				setSeverityScore
 			}}
 		>
 			{children}

@@ -11,7 +11,7 @@ export const uploadFile = async (file) => {
 			file
 		);
 		if (!result) throw new Error("Unable to upload file");
-		return result.data;
+		return result;
 	} catch (error) {
 		console.error(error);
 	}

@@ -31,7 +31,6 @@ const FileUpload = () => {
 						.then((res) => {
 							if (res) {
 								setSeverityScore(res.data);
-								setComment(severityMap[res.data]);
 								uploadFile(fileRef.current.files[0])
 									.then((response) => {
 										createEntry({
