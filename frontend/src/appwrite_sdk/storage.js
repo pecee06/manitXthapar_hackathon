@@ -11,21 +11,35 @@ export const uploadFile = async (file) => {
 			file
 		);
 		if (!result) throw new Error("Unable to upload file");
-		return result;
+		return result.data;
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-export const getFileURL = async (fileId) => {
+export const getFile = async (fileId) => {
 	try {
-		const result = storage.getFilePreview(
+		const url = storage.getFilePreview(
 			import.meta.env.VITE_APPWRITE_STORE_ID, // bucketId
 			fileId // fileId
 		);
-		// result is a public URL
-		if (!result) throw new Error("Unable to fetch the desired file");
-		return result;
+		if (!url) throw new Error("Unable to fetch the desired file");
+
+		let date = (
+			await storage.getFile(import.meta.env.VITE_APPWRITE_STORE_ID, fileId)
+		).$createdAt;
+		date = new Date(date);
+		date = date.toLocaleString("en-US", {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+			hour12: true
+		});
+
+		return { url, date };
 	} catch (error) {
 		console.error(error);
 	}
