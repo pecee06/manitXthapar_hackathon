@@ -5,33 +5,27 @@ import { uploadFile } from "../appwrite_sdk/storage";
 import { UserContext } from "../contexts/UserProvider";
 import { StatusContext } from "../contexts/StatusProvider";
 import { createEntry } from "../appwrite_sdk/db";
-import { severityMap } from "../constants";
-
 import { UploadCloud } from "lucide-react";
 
 const FileUpload = () => {
 	const fileRef = useRef(null);
 	const { dets } = useContext(UserContext);
-	const { setSeverityScore, setComment } = useContext(StatusContext);
+	const { setSeverityScore } = useContext(StatusContext);
 
 	return (
 		<form className="bg-slate-800 text-white flex flex-col md:flex-row gap-4 min-h-[12vh] p-4 justify-evenly items-center">
-
-			<label className="bg-slate-700 text-gray-300 cursor-pointer rounded-lg px-4 py-3 flex items-center justify-center transition-all hover:bg-slate-600">
+			<div className="bg-slate-700 text-gray-300 cursor-pointer rounded-lg px-4 py-3 flex items-center transition-all hover:bg-slate-600">
+				<UploadCloud
+					size={32}
+					className="text-gray-300 mx-3"
+				/>
 				<input
-					className="hidden"
 					type="file"
 					name="file"
 					ref={fileRef}
+					className="text-sm text-gray-400"
 				/>
-
-				<div className="flex items-center gap-2">
-					<UploadCloud size={32} className="text-gray-300" />
-					<span className="text-sm text-gray-400">
-						Click or drag file to upload
-					</span>
-				</div>
-			</label>
+			</div>
 
 			<Button
 				text="Diagnose"

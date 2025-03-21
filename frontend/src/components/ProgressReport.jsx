@@ -21,37 +21,39 @@ const ProgressReport = ({ styles }) => {
 
 	return (
 		<div
-      className={`${styles} flex flex-col items-center overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200`}
-    >
+			className={`${styles} overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200`}
+		>
 			{!showReport ? (
-      <>
-        <div className="flex items-center gap-2 text-blue-700 text-xl font-bold">
-          <Activity size={24} />
-          <h3>Patient Progress Report</h3>
-        </div>
-      
-				<Button
-					text="Show Progress Report"
-					styles="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md"
-					func={() => {
-						if (diagnosisHistory.length == 0) return;
-						const history = diagnosisHistory.map((instance) => ({
-							remark: severityMap[instance.arthritisSeverity],
-							date: instance.$createdAt
-						}));
+				<div className="flex flex-col items-center justify-around h-full">
+					<div className="flex items-center gap-2 text-blue-700 text-xl font-bold">
+						<Activity size={24} />
+						<h3>Patient Progress Report</h3>
+					</div>
 
-						genAiFeedback(history)
-							.then((res) => {
-								let html = res.data;
-								setHtmlContent(parse(html));
-								setShowReport(true);
-							})
-							.catch((error) => console.error(error));
-					}}
-				/>
-        </>
+					<Button
+						text="Show Progress Report"
+						styles="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md"
+						func={() => {
+							if (diagnosisHistory.length == 0) return;
+							const history = diagnosisHistory.map((instance) => ({
+								remark: severityMap[instance.arthritisSeverity],
+								date: instance.$createdAt
+							}));
+
+							genAiFeedback(history)
+								.then((res) => {
+									let html = res.data;
+									setHtmlContent(parse(html));
+									setShowReport(true);
+								})
+								.catch((error) => console.error(error));
+						}}
+					/>
+				</div>
 			) : (
-				<div className="p-4 text-sm overflow-x-hidden flex flex-col items-center md:mt-10 mt-5 text-gray-600">{htmlContent}</div>
+				<div className="p-4 text-sm overflow-x-hidden flex flex-col items-center md:mt-10 mt-5 text-gray-600">
+					{htmlContent}
+				</div>
 			)}
 		</div>
 	);

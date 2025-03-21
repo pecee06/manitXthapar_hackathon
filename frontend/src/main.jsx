@@ -24,16 +24,16 @@ createRoot(document.getElementById("root")).render(
 					element={<Repo />}
 				/>
 				<Route
-					path="*"
-					element={<NotFound />}
-				/>
-				<Route
 					path="/about"
 					element={<About />}
 				/>
 				<Route
 					path="/profile"
 					element={<Profile />}
+				/>
+				<Route
+					path="*"
+					element={<NotFound />}
 				/>
 			</Routes>
 		</BrowserRouter>
