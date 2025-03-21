@@ -24,14 +24,18 @@ const ProgressReport = ({ styles }) => {
 			className={`${styles} overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200`}
 		>
 			{!showReport ? (
-				<div className="flex flex-col items-center justify-around h-full">
+				<div className="flex flex-col items-center justify-around gap-2 h-full">
 					<div className="flex items-center gap-2 text-blue-700 text-xl font-bold">
 						<Activity size={24} />
 						<h3>Patient Progress Report</h3>
 					</div>
 
+					<div className="flex items-center text-center text-gray-600 w-[80%]">
+						Instantly generate a detailed arthritis report with AI! Analyze diagnostic history, assess osteoarthritis severity, and get clinical insights in seconds. Enhance decision-making with precision-driven reports tailored to patient data. Click to create an AI-powered medical report now!
+					</div>
+
 					<Button
-						text="Show Progress Report"
+						text="Generate"
 						styles="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md"
 						func={() => {
 							if (diagnosisHistory.length == 0) return;
