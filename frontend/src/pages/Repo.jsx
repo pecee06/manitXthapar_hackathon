@@ -38,7 +38,7 @@ const Repo = () => {
 		return (
 			<>
 				<Navbar />
-				<div className="flex flex-col items-center justify-center p-6 text-gray-600">
+				<div className="flex flex-col items-center justify-center p-6 text-gray-600 min-h-screen bg-white">
 					<FileImage className="h-10 w-10 mb-2" />
 					<p>No past X-ray records available</p>
 				</div>

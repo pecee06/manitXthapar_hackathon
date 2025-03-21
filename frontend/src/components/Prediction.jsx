@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { StatusContext } from "../contexts/StatusProvider";
 import { severityMap } from "../constants";
 import { BrainCircuit, UploadCloud } from "lucide-react";
+import SeverityDisplay from "./SeverityDisplay";
 
 const Prediction = ({ styles }) => {
 	const { severityScore } = useContext(StatusContext);
@@ -32,11 +33,13 @@ const Prediction = ({ styles }) => {
 				</div>
 			</div>
 		);
+		
 	return (
 		<div
-			className={`${styles} flex flex-col justify-center items-center overflow-y-scroll p-2 font-bold text-lg`}
+			className={`${styles} flex flex-col justify-center items-center overflow-y-scroll p-4 font-bold text-lg bg-white shadow-md rounded-lg border border-gray-200`}
 		>
-			{severityMap[severityScore]}
+			{/* {severityMap[severityScore]} */}
+			<SeverityDisplay severityScore={severityScore} />
 		</div>
 	);
 };
