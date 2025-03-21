@@ -7,7 +7,7 @@ export const UserContext = createContext({
 	login: () => {},
 	logout: () => {},
 	diagnosisHistory: [
-		// {remark, date}
+		// {arthritisSeverity, etc.}
 	],
 	setDiagnosisHistory: () => {}
 });

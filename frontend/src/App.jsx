@@ -1,13 +1,23 @@
 import { UserContext } from "./contexts/UserProvider";
 import { useContext, useEffect } from "react";
-import About from "./components/About";
 import { getCurrentUser } from "./appwrite_sdk/account";
 import { Dashboard } from "./pages";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import Heading from "./components/Heading";
+import Hero from "./components/Hero";
+
+const Home = () => {
+	return (
+		<>
+			<Heading />
+			<Hero />
+		</>
+	);
+};
 
 const App = () => {
-	const { loggedIn, login, setDets, dets } = useContext(UserContext);
+	const { loggedIn, login, setDets } = useContext(UserContext);
 	useEffect(() => {
 		getCurrentUser()
 			.then((res) => {
@@ -18,12 +28,11 @@ const App = () => {
 			})
 			.catch((error) => console.error(error));
 	}, []);
-	// console.log(dets);
 
 	return (
 		<main>
 			<Navbar />
-			{loggedIn ? <Dashboard /> : <About />}
+			{loggedIn ? <Dashboard /> : <Home />}
 			<Footer />
 		</main>
 	);

@@ -6,10 +6,12 @@ import { UserContext } from "../contexts/UserProvider";
 import { fetchEntries } from "../appwrite_sdk/db";
 import { severityMap } from "../constants";
 import { Activity } from "lucide-react";
+import Loader from "./Loader";
 
 const ProgressReport = ({ styles }) => {
 	const [showReport, setShowReport] = useState(false);
 	const [htmlContent, setHtmlContent] = useState("");
+	const [loading, setLoading] = useState(false);
 	const { diagnosisHistory, setDiagnosisHistory, dets } =
 		useContext(UserContext);
 
@@ -19,6 +21,7 @@ const ProgressReport = ({ styles }) => {
 			.catch((error) => console.error(error));
 	}, []);
 
+	if (loading) return <Loader text="Generating" />;
 	return (
 		<div
 			className={`${styles} overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200`}
@@ -31,14 +34,23 @@ const ProgressReport = ({ styles }) => {
 					</div>
 
 					<div className="flex items-center text-center text-gray-600 w-[80%]">
-						Instantly generate a detailed arthritis report with AI! Analyze diagnostic history, assess osteoarthritis severity, and get clinical insights in seconds. Enhance decision-making with precision-driven reports tailored to patient data. Click to create an AI-powered medical report now!
+						Instantly generate a detailed arthritis report with AI! Analyze
+						diagnostic history, assess osteoarthritis severity, and get clinical
+						insights in seconds. Enhance decision-making with precision-driven
+						reports tailored to patient data. Click to create an AI-powered
+						medical report now!
 					</div>
 
 					<Button
 						text="Generate"
 						styles="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md"
 						func={() => {
-							if (diagnosisHistory.length == 0) return;
+							if (diagnosisHistory.length == 0) {
+								alert("No past records present");
+								return;
+							}
+							setShowReport(true);
+							setLoading(true);
 							const history = diagnosisHistory.map((instance) => ({
 								remark: severityMap[instance.arthritisSeverity],
 								date: instance.$createdAt
@@ -48,7 +60,7 @@ const ProgressReport = ({ styles }) => {
 								.then((res) => {
 									let html = res.data;
 									setHtmlContent(parse(html));
-									setShowReport(true);
+									setLoading(false);
 								})
 								.catch((error) => console.error(error));
 						}}

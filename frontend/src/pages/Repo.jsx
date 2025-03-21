@@ -1,8 +1,9 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../contexts/UserProvider";
-import { FileImage, Loader2 } from "lucide-react";
+import { FileImage } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Loader from "../components/Loader";
 import { getFile } from "../appwrite_sdk/storage";
 
 const Repo = () => {
@@ -22,17 +23,7 @@ const Repo = () => {
 		}
 	}, []);
 
-	if (loading)
-		return (
-			<>
-				<Navbar />
-				<div className="flex items-center justify-center p-6 bg-white min-h-screen">
-					<Loader2 className="animate-spin h-8 w-8 text-blue-600 mr-2" />
-					<p className="text-gray-600">Loading past X-ray records...</p>
-				</div>
-				<Footer />
-			</>
-		);
+	if (loading) return <Loader text="Loading past X-ray records" />;
 
 	if (xrays.length == 0)
 		return (

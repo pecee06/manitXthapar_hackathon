@@ -12,7 +12,7 @@ import Button from "./Button";
 const Footer = () => {
 	return (
 		<footer className="bg-gray-800 text-white py-10">
-			<div className="gap-8 flex justify-around px-6">
+			<div className="gap-8 flex justify-around px-6 flex-wrap">
 				{/* Contact */}
 				<div>
 					<h3 className="text-xl font-semibold mb-2">Contact Us</h3>
