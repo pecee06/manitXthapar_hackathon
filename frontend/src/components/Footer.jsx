@@ -7,7 +7,6 @@ import {
 	Phone,
 	MapPin
 } from "lucide-react";
-import { Link } from "react-router";
 import Button from "./Button";
 
 const Footer = () => {
