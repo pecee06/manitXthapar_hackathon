@@ -26,7 +26,7 @@ export const fetchEntries = async (userId) => {
 			[Query.equal("userId", userId)] // queries (optional)
 		);
 		if (!result) throw new Error("Unable to fetch DB entries");
-		return result;
+		return result.documents;
 	} catch (error) {
 		console.error(error);
 	}

@@ -1,5 +1,6 @@
 .venv
 .env
+*.pth
 __pycache__
 uploads
 # Logs

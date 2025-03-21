@@ -1,11 +1,11 @@
 import { server } from "../constants";
 import axios from "axios";
 
-const uploadFile = async ({ name, file }) => {
+const diagnose = async ({ name, file }) => {
 	try {
 		if (!name || !file) return;
 		const response = await axios.post(
-			`${server}/upload`,
+			`${server}/prediction`,
 			{ name, file },
 			{
 				headers: {
@@ -14,10 +14,10 @@ const uploadFile = async ({ name, file }) => {
 			}
 		);
 		if (response.status >= 400) return null;
-		return response;
+		return response.data;
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-export default uploadFile;
+export default diagnose;

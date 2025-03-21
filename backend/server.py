@@ -1,10 +1,11 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Form
+from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
-import shutil
-import os
-from datetime import datetime
-from utils import arithmeticMeanFilter, clahe, splitAndMerge, saveImage, detectContour
+from fastapi import File, UploadFile, Form
+from controllers.uploadAndPredict import uploadAndPredict
+from controllers.generateFeedback import generateFeedback
+from utils.ApiResponse import ApiResponse
 
+# Settings
 app = FastAPI()
 
 app.add_middleware(
@@ -15,33 +16,23 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
+# Routes
 @app.get("/")
-def welcome():
-    return {
-        "message": "OK",
-        "statusCode": 200
-    }
+def start():
+    res = ApiResponse(message="OK", data=None)
+    return res
 
-UPLOAD_DIR = "uploads"  # Directory to save files
-os.makedirs(UPLOAD_DIR, exist_ok=True)  # Create if not exists
+@app.post("/prediction")
+async def servePrediction(name: str = Form(...), file: UploadFile = File(...)):
+    arthritis_severity = await uploadAndPredict(name, file)
+    res = ApiResponse(message="OK", data=arthritis_severity)
+    return res
 
-@app.post("/upload")
-async def uploadFile(name: str = Form(...), file: UploadFile = File(...)):
-    try:
-        file_path = os.path.join(UPLOAD_DIR, f"{datetime.now().date()}_{name.replace(" ", "_")}_xray_{os.path.splitext(file.filename)[1]}")
-        # print(file_path)
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        
-        image = splitAndMerge(clahe(arithmeticMeanFilter(file_path)))
-        # image = detectContour(clahe(arithmeticMeanFilter(file_path)))
-        saveImage(image, file_path)
-
-        model_prediction = 2  # hard coded right now
-        return model_prediction
-    
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
+@app.post("/ai/feedback")
+async def serveAiFeedback(prompt: str = Form(...)):
+    ai_feedback = await generateFeedback(prompt)
+    res = ApiResponse(message="OK", data=ai_feedback)
+    return res
 
 # Run using: uvicorn server:app --reload
 # uvicorn spins off the server at port 8000 by default

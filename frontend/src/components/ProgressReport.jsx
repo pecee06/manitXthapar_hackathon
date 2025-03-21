@@ -1,39 +1,60 @@
+import Button from "./Button";
+import { useState, useEffect, useContext } from "react";
+import parse from "html-react-parser";
+import genAiFeedback from "../api/genAiFeedback";
+import { UserContext } from "../contexts/UserProvider";
+import { fetchEntries } from "../appwrite_sdk/db";
+import { severityMap } from "../constants";
 import { Activity } from "lucide-react";
-import { useContext } from "react";
-import { StatusContext } from "../contexts/StatusProvider";
 
 const ProgressReport = ({ styles }) => {
-  const { fileUploaded } = useContext(StatusContext); // Assuming fileUploaded state is available
+	const [showReport, setShowReport] = useState(false);
+	const [htmlContent, setHtmlContent] = useState("");
+	const { diagnosisHistory, setDiagnosisHistory, dets } =
+		useContext(UserContext);
 
-  return (
-    <div
-      className={`${styles} flex flex-col items-center overflow-y-auto p-4 bg-white shadow-md rounded-lg border border-gray-200`}
+	useEffect(() => {
+		fetchEntries(dets.$id)
+			.then((res) => setDiagnosisHistory(res))
+			.catch((error) => console.error(error));
+	}, []);
+
+	return (
+		<div
+      className={`${styles} flex flex-col items-center overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200`}
     >
-      {/* Title with Medical Icon */}
-      <div className="flex items-center gap-2 text-blue-700 text-xl font-bold">
-        <Activity size={24} />
-        <h3>Patient Progress Report</h3>
-      </div>
-
-      {/* Progress Report */}
-      {fileUploaded ? (
-        <div>
-          Report : Severity is ...
+			{!showReport ? (
+      <>
+        <div className="flex items-center gap-2 text-blue-700 text-xl font-bold">
+          <Activity size={24} />
+          <h3>Patient Progress Report</h3>
         </div>
-      )
-        : (
-          <div>
+      
+				<Button
+					text="Show Progress Report"
+					styles="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md"
+					func={() => {
+						if (diagnosisHistory.length == 0) return;
+						const history = diagnosisHistory.map((instance) => ({
+							remark: severityMap[instance.arthritisSeverity],
+							date: instance.$createdAt
+						}));
 
-            <div className="flex flex-col items-center md:mt-10 mt-5 text-gray-600">
-              <button className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md">
-                Generate AI Report
-              </button>
-            </div >
-          </div >
-        )}
-
-    </div >
-  );
+						genAiFeedback(history)
+							.then((res) => {
+								let html = res.data;
+								setHtmlContent(parse(html));
+								setShowReport(true);
+							})
+							.catch((error) => console.error(error));
+					}}
+				/>
+        </>
+			) : (
+				<div className="p-4 text-sm overflow-x-hidden flex flex-col items-center md:mt-10 mt-5 text-gray-600">{htmlContent}</div>
+			)}
+		</div>
+	);
 };
 
 export default ProgressReport;
