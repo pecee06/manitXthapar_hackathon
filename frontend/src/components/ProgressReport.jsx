@@ -5,6 +5,7 @@ import genAiFeedback from "../api/genAiFeedback";
 import { UserContext } from "../contexts/UserProvider";
 import { fetchEntries } from "../appwrite_sdk/db";
 import { severityMap } from "../constants";
+import { Activity } from "lucide-react";
 
 const ProgressReport = ({ styles }) => {
 	const [showReport, setShowReport] = useState(false);
@@ -20,19 +21,24 @@ const ProgressReport = ({ styles }) => {
 
 	return (
 		<div
-			className={`${styles} flex flex-col justify-center items-center overflow-y-scroll p-1`}
-		>
+      className={`${styles} flex flex-col items-center overflow-y-scroll p-4 bg-white shadow-md rounded-lg border border-gray-200`}
+    >
 			{!showReport ? (
+      <>
+        <div className="flex items-center gap-2 text-blue-700 text-xl font-bold">
+          <Activity size={24} />
+          <h3>Patient Progress Report</h3>
+        </div>
+      
 				<Button
 					text="Show Progress Report"
-					styles="bg-[#f93827] text-white px-8 py-3 rounded h-fit mx-1"
+					styles="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md"
 					func={() => {
 						if (diagnosisHistory.length == 0) return;
 						const history = diagnosisHistory.map((instance) => ({
 							remark: severityMap[instance.arthritisSeverity],
 							date: instance.$createdAt
 						}));
-						// console.log(history);
 
 						genAiFeedback(history)
 							.then((res) => {
@@ -43,8 +49,9 @@ const ProgressReport = ({ styles }) => {
 							.catch((error) => console.error(error));
 					}}
 				/>
+        </>
 			) : (
-				<div className="p-4 text-sm overflow-x-hidden">{htmlContent}</div>
+				<div className="p-4 text-sm overflow-x-hidden flex flex-col items-center md:mt-10 mt-5 text-gray-600">{htmlContent}</div>
 			)}
 		</div>
 	);

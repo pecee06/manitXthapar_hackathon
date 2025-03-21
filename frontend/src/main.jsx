@@ -4,6 +4,8 @@ import UserProvider from "./contexts/UserProvider.jsx";
 import { NotFound, Login, Repo } from "./pages";
 import "./index.css";
 import App from "./App.jsx";
+import About from "./pages/About.jsx";
+import Profile from "./pages/Profile.jsx";
 
 createRoot(document.getElementById("root")).render(
 	<UserProvider>
@@ -24,6 +26,14 @@ createRoot(document.getElementById("root")).render(
 				<Route
 					path="*"
 					element={<NotFound />}
+				/>
+				<Route
+					path="/about"
+					element={<About />}
+				/>
+				<Route
+					path="/profile"
+					element={<Profile />}
 				/>
 			</Routes>
 		</BrowserRouter>

@@ -7,7 +7,7 @@ const Logo = () => {
 		<img
 			src={src}
 			alt="Trademark"
-			className="w-20 h-20 cursor-pointer"
+			className="w-12 h-12 cursor-pointer"
 			onClick={() => navigate("/")}
 		/>
 	);
